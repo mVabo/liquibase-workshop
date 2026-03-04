@@ -9,6 +9,54 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 const STEP_STORAGE_KEY = "potion-workshop-mission-checks";
 
 type StepCompletionMap = Record<string, boolean>;
+type ApiContractHint = {
+  method: "GET" | "POST";
+  path: string;
+  usedBy: string;
+  responseKeys: string[];
+  requestKeys?: string[];
+};
+
+const API_CONTRACT_HINTS: ApiContractHint[] = [
+  {
+    method: "GET",
+    path: "/api/status",
+    usedBy: "Service Crystal (shop home status panel)",
+    responseKeys: ["app", "status", "time"]
+  },
+  {
+    method: "GET",
+    path: "/api/potions",
+    usedBy: "Shop catalog + dashboard inventory table",
+    responseKeys: ["id", "code", "name", "price", "stock"]
+  },
+  {
+    method: "GET",
+    path: "/api/customers",
+    usedBy: "Dashboard customer metrics",
+    responseKeys: ["id", "email", "displayName"]
+  },
+  {
+    method: "GET",
+    path: "/api/orders",
+    usedBy: "Recent Orders + dashboard revenue metrics",
+    responseKeys: ["orderId", "customerEmail", "customerName", "status", "totalAmount", "itemCount"]
+  },
+  {
+    method: "POST",
+    path: "/api/customers",
+    usedBy: "Order Forge customer creation",
+    requestKeys: ["email", "displayName"],
+    responseKeys: ["id", "email", "displayName"]
+  },
+  {
+    method: "POST",
+    path: "/api/orders",
+    usedBy: "Order Forge order creation",
+    requestKeys: ["customerEmail", "items[].potionCode", "items[].quantity"],
+    responseKeys: ["orderId", "customerEmail", "customerName", "status", "totalAmount", "itemCount"]
+  }
+];
 
 function createStepKey(missionCode: string, stepIndex: number) {
   return `${missionCode}:${stepIndex}`;
@@ -201,6 +249,55 @@ export function MissionsPage() {
           );
         })}
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>API Contract Hints</CardTitle>
+          <CardDescription>
+            Use these endpoint and field-name contracts to build backend behavior without opening answer markdown files.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Field names are case-sensitive. Keep request and response keys exactly as shown.
+          </p>
+
+          <div className="space-y-2">
+            {API_CONTRACT_HINTS.map((hint) => (
+              <details
+                key={`${hint.method}-${hint.path}`}
+                className="rounded-md border border-border/70 bg-muted/20 text-sm open:bg-card/40"
+              >
+                <summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-2 p-3">
+                  <span className="flex flex-wrap items-center gap-2">
+                    <Badge variant={hint.method === "GET" ? "outline" : "secondary"}>{hint.method}</Badge>
+                    <code>{hint.path}</code>
+                  </span>
+                  <span className="text-xs text-muted-foreground">Expand</span>
+                </summary>
+
+                <div className="border-t border-border/70 p-3">
+                  <p className="text-muted-foreground">{hint.usedBy}</p>
+
+                  {hint.requestKeys ? (
+                    <>
+                      <p className="mt-3 font-semibold">Request keys</p>
+                      <p className="text-muted-foreground">
+                        <code>{hint.requestKeys.join(", ")}</code>
+                      </p>
+                    </>
+                  ) : null}
+
+                  <p className="mt-3 font-semibold">Response keys</p>
+                  <p className="text-muted-foreground">
+                    <code>{hint.responseKeys.join(", ")}</code>
+                  </p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
