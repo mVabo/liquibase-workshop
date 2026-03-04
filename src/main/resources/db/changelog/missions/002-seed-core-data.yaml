@@ -43,7 +43,7 @@ databaseChangeLog:
                   value: HEAL-01
               - column:
                   name: name
-                  value: Healing Potion
+                  value: "💚 Healing Potion"
               - column:
                   name: price
                   valueNumeric: 12.50
@@ -58,7 +58,7 @@ databaseChangeLog:
                   value: MANA-01
               - column:
                   name: name
-                  value: Mana Potion
+                  value: "🔮 Mana Potion"
               - column:
                   name: price
                   valueNumeric: 14.75
@@ -73,7 +73,7 @@ databaseChangeLog:
                   value: INV-01
               - column:
                   name: name
-                  value: Invisibility Draft
+                  value: "👻 Invisibility Draft"
               - column:
                   name: price
                   valueNumeric: 28.00
@@ -88,7 +88,7 @@ databaseChangeLog:
                   value: FIRE-01
               - column:
                   name: name
-                  value: Fire Resistance
+                  value: "🔥 Fire Resistance"
               - column:
                   name: price
                   valueNumeric: 19.90
@@ -103,13 +103,88 @@ databaseChangeLog:
                   value: SPEED-01
               - column:
                   name: name
-                  value: Swiftstride Elixir
+                  value: "⚡ Swiftstride Elixir"
               - column:
                   name: price
                   valueNumeric: 16.40
               - column:
                   name: stock
                   valueNumeric: 30
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: FROST-01
+              - column:
+                  name: name
+                  value: "❄️ Frost Ward Tonic"
+              - column:
+                  name: price
+                  valueNumeric: 18.20
+              - column:
+                  name: stock
+                  valueNumeric: 26
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: STORM-01
+              - column:
+                  name: name
+                  value: "⛈️ Stormcharge Serum"
+              - column:
+                  name: price
+                  valueNumeric: 21.90
+              - column:
+                  name: stock
+                  valueNumeric: 18
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: STONE-01
+              - column:
+                  name: name
+                  value: "🪨 Stonehide Brew"
+              - column:
+                  name: price
+                  valueNumeric: 17.80
+              - column:
+                  name: stock
+                  valueNumeric: 24
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: LUCK-01
+              - column:
+                  name: name
+                  value: "🍀 Fortune Fizz"
+              - column:
+                  name: price
+                  valueNumeric: 23.50
+              - column:
+                  name: stock
+                  valueNumeric: 12
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: NIGHT-01
+              - column:
+                  name: name
+                  value: "🌙 Moonveil Mixture"
+              - column:
+                  name: price
+                  valueNumeric: 20.40
+              - column:
+                  name: stock
+                  valueNumeric: 16
 
   - changeSet:
       id: 008-seed-orders
