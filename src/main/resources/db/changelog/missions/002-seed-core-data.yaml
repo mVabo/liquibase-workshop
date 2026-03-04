@@ -1,0 +1,185 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-seed-customers
+      author: workshop
+      changes:
+        - insert:
+            tableName: customers
+            columns:
+              - column:
+                  name: email
+                  value: merlin@tower.magic
+              - column:
+                  name: display_name
+                  value: Merlin
+        - insert:
+            tableName: customers
+            columns:
+              - column:
+                  name: email
+                  value: morgana@mist.magic
+              - column:
+                  name: display_name
+                  value: Morgana
+        - insert:
+            tableName: customers
+            columns:
+              - column:
+                  name: email
+                  value: gandalf@grey.magic
+              - column:
+                  name: display_name
+                  value: Gandalf
+
+  - changeSet:
+      id: 007-seed-potions
+      author: workshop
+      changes:
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: HEAL-01
+              - column:
+                  name: name
+                  value: Healing Potion
+              - column:
+                  name: price
+                  valueNumeric: 12.50
+              - column:
+                  name: stock
+                  valueNumeric: 50
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: MANA-01
+              - column:
+                  name: name
+                  value: Mana Potion
+              - column:
+                  name: price
+                  valueNumeric: 14.75
+              - column:
+                  name: stock
+                  valueNumeric: 40
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: INV-01
+              - column:
+                  name: name
+                  value: Invisibility Draft
+              - column:
+                  name: price
+                  valueNumeric: 28.00
+              - column:
+                  name: stock
+                  valueNumeric: 15
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: FIRE-01
+              - column:
+                  name: name
+                  value: Fire Resistance
+              - column:
+                  name: price
+                  valueNumeric: 19.90
+              - column:
+                  name: stock
+                  valueNumeric: 22
+        - insert:
+            tableName: potions
+            columns:
+              - column:
+                  name: code
+                  value: SPEED-01
+              - column:
+                  name: name
+                  value: Swiftstride Elixir
+              - column:
+                  name: price
+                  valueNumeric: 16.40
+              - column:
+                  name: stock
+                  valueNumeric: 30
+
+  - changeSet:
+      id: 008-seed-orders
+      author: workshop
+      changes:
+        - insert:
+            tableName: orders
+            columns:
+              - column:
+                  name: customer_id
+                  valueNumeric: 1
+              - column:
+                  name: status
+                  value: PAID
+        - insert:
+            tableName: orders
+            columns:
+              - column:
+                  name: customer_id
+                  valueNumeric: 2
+              - column:
+                  name: status
+                  value: PAID
+
+  - changeSet:
+      id: 009-seed-order-items
+      author: workshop
+      changes:
+        - insert:
+            tableName: order_items
+            columns:
+              - column:
+                  name: order_id
+                  valueNumeric: 1
+              - column:
+                  name: potion_id
+                  valueNumeric: 1
+              - column:
+                  name: quantity
+                  valueNumeric: 2
+              - column:
+                  name: unit_price
+                  valueNumeric: 12.50
+        - insert:
+            tableName: order_items
+            columns:
+              - column:
+                  name: order_id
+                  valueNumeric: 1
+              - column:
+                  name: potion_id
+                  valueNumeric: 2
+              - column:
+                  name: quantity
+                  valueNumeric: 1
+              - column:
+                  name: unit_price
+                  valueNumeric: 14.75
+        - insert:
+            tableName: order_items
+            columns:
+              - column:
+                  name: order_id
+                  valueNumeric: 2
+              - column:
+                  name: potion_id
+                  valueNumeric: 3
+              - column:
+                  name: quantity
+                  valueNumeric: 1
+              - column:
+                  name: unit_price
+                  valueNumeric: 28.00

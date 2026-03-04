@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: liquibase-workshop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/potion_shop
+    username: workshop
+    password: workshop
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+springdoc:
+  swagger-ui:
+    enabled: false
+
+scalar:
+  enabled: true
+  path: /scalar

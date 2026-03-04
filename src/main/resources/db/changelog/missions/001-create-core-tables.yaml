@@ -1,0 +1,172 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-customers
+      author: workshop
+      changes:
+        - createTable:
+            tableName: customers
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_customers
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uk_customers_email
+              - column:
+                  name: display_name
+                  type: VARCHAR(120)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 002-create-potions
+      author: workshop
+      changes:
+        - createTable:
+            tableName: potions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_potions
+                    nullable: false
+              - column:
+                  name: code
+                  type: VARCHAR(40)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uk_potions_code
+              - column:
+                  name: name
+                  type: VARCHAR(120)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stock
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 003-create-orders
+      author: workshop
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_orders
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: orders
+            baseColumnNames: customer_id
+            constraintName: fk_orders_customer
+            referencedTableName: customers
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 004-create-order-items
+      author: workshop
+      changes:
+        - createTable:
+            tableName: order_items
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_order_items
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: potion_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_price
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: order_items
+            baseColumnNames: order_id
+            constraintName: fk_order_items_order
+            referencedTableName: orders
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: order_items
+            baseColumnNames: potion_id
+            constraintName: fk_order_items_potion
+            referencedTableName: potions
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: order_items
+            columnNames: order_id, potion_id
+            constraintName: uk_order_items_order_potion
+
+  - changeSet:
+      id: 005-add-checks
+      author: workshop
+      changes:
+        - sql:
+            sql: ALTER TABLE potions ADD CONSTRAINT ck_potions_stock_non_negative CHECK (stock >= 0);
+        - sql:
+            sql: ALTER TABLE order_items ADD CONSTRAINT ck_order_items_quantity_positive CHECK (quantity > 0);

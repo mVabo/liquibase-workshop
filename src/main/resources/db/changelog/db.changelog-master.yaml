@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: missions/001-create-core-tables.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: missions/002-seed-core-data.yaml
+      relativeToChangelogFile: true
